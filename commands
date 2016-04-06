@@ -1,0 +1,3 @@
+ps ax | grep mongod
+kill -9 PID
+sudo mongod --dbpath  /var/lib/mongodb/ --journal

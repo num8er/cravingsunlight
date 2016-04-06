@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Craving Sunlight</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+
+	<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+			<script>
+				var socket = io.connect('http://localhost:8888');
+				socket.on('page', function (data) {
+					socket.emit('page', 'index.html');
+					});
+				socket.on("redirect_to_dashboard", function(){
+   					window.setTimeout(function(){
+   						window.location.href = "/dashboard";
+    				},50);
+   				});
+
+				function initCoords() {
+  					if (navigator.geolocation) {
+    					navigator.geolocation.getCurrentPosition(initialize);
+  					} else {
+    					showError("Your browser does not support Geolocation!");
+ 					}
+				}
+				var lat=0;
+				var lon=0;
+				var acc;
+				function initialize(position) {
+				    lat = position.coords.latitude;
+				    lon = position.coords.longitude;
+				    acc = position.coords.accuracy;
+				    redirect();
+				}
+
+				function redirect(){
+   					var red = `<div class="wrapper style1 first">
+						<article class="container" id="top">
+
+						<center>
+							<div class="8u 12u(mobile)">
+									<header>
+										<h1>Share your location</h1>
+									</header>
+									<p>If prompted, click <Strong>Allow</Strong> or <Strong>Share location</Strong>
+									to proceed<p>
+								</center>
+							</div>
+						</article>
+					</div>`;
+					document.body.innerHTML = red;
+					if(lat && lon){
+						socket.emit('latitude',lat);
+	   					socket.emit('longitude',lon);
+					}
+					
+   				}
+   				if(lon){
+	   				console.log(lat);
+	   				console.log(lon);
+				}
+
+
+			</script>
+
+
+
+
+		<!-- Home -->
+			<div class="wrapper style1 first">
+				<article class="container" id="top">
+						<center>
+						<div class="8u 12u(mobile)">
+							<header>
+								<h1>Craving for some sunlight?</h1>
+								<br>
+								<div class="button small scrolly" onClick="initCoords()">Find out places near you that are warmer</div>
+							</header>
+						
+							
+							<footer>
+						<ul id="copyright">
+							<li>&copy; Vivek Kotecha. All rights reserved.</li>
+						</ul>
+					</footer>
+							</center>
+						<!-- </div> -->
+						</div>
+				</article>
+			</div>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/skel-viewport.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+
+	</body>
+</html>

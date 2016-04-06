@@ -1,0 +1,110 @@
+var response = await( exec(Authorization,defer(),function (error, stdout, stderr) {
+              if (error !== null) {
+                child = stdout;
+                console.log('exec error: ' + error);
+              }
+            }));
+            var response_json = JSON.parse(response)
+            access_token = response_json.access_token;
+
+
+// var access_token = '';
+
+//Max number of forecasted days
+
+
+//Get access token for Lufthansa API
+// var Authorization = 'curl "https://api.lufthansa.com/v1/oauth/token" -X POST -d "client_id=r25a28y4mgt7vj2acnacryjx" -d "client_secret=NsB7DyxsMc" -d "grant_type=client_credentials"';
+
+//For UNIX script execution
+// var exec = require('child_process').exec;
+// var child;
+
+// function getAirports(access_token,lat,lon){
+//   return 'curl -H "Authorization: Bearer ' + access_token +  '" -H "Accept: application/json" https://api.lufthansa.com/v1/references/airports/nearest/'+lat+','+lon;
+// }
+
+// app.get('/success', function(req,res){
+//   if(!loggedout){
+//     res.sendFile(__dirname + '/public/success.html');
+//   }
+//   else{
+//     res.sendFile(__dirname + '/public/accessdenied.html');
+//   }
+  
+// });
+   
+
+//console.log("Lufthansa API access token: " + access_token);
+
+//Creates the URL that will query the Bands in Town API
+//Note that the API can return results for multiple artists in a single request.
+
+// function apiUrl(res){
+//   //Setting the length of the array for iteration through artists' names.
+//   len = res.body.artists.items.length;
+
+//   //Pushing artists' names in an array.
+//   for (var i = 0; i < len; i++) {
+//     var name = res.body.artists.items[i].name;
+//     var pic = res.body.artists.items[i].images[1].url;
+//     artistArray.push(name);
+//     pictureArray.push(pic);
+//     //console.log(i + " : " + artistArray[i]);
+//   }
+
+//   var url = "http://api.bandsintown.com/events/search?artists[]=" 
+//               + artistArray[0] + "&location=" + latitude + "," + longitude 
+//                 + "&radius=150&format=json&app_id=none";
+
+//   for(i = 1;i<artistArray.length; i++){
+//     url = url.concat("&artists[]=" + artistArray[i]);
+//   }
+//   //console.log("Bands in Town API request url: " + url);
+//   return url;
+// }
+
+// function getPicture(name){
+//   name=name.trim();
+//   var i;
+//   for(i=0;i<artistArray.length;i++){
+//     // console.log("Artist name: " + name + name.length);
+//     // console.log("Checking against: "+ artistArray[i]+artistArray[i].length);
+//     if(artistArray[i]===name){
+//       //console.log("Matched with: " + artistArray[i]);
+//       return pictureArray[i]
+//     }
+//   }
+// }
+
+// app.get('/logout',function(req,res){
+
+//   req.session.destroy(function(err){
+//     if(err){
+//       console.log(err);
+//     }
+//     else{
+//       len=0;
+//       loggedout=true;
+//       delete_collection();
+//       res.sendFile(__dirname + '/public/logout.html');
+//     }
+//   });
+// });
+
+// function delete_collection(){
+//   len=0;
+//   dashboard_data = [];
+//   sent_data = [];
+//   artistArray = [];
+//   pictureArray = [];
+  
+//   MongoClient.connect(url, function(err, db) {
+//     assert.equal(null, err);
+//     //console.log("Connected correctly to server.");
+//     db.collection('BITdata',function(err, collection){
+//       collection.remove({},function(err, removed){});
+//       //console.log("Deleted the data")
+//     });
+//   });
+// }

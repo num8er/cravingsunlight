@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Music in Town</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<div class="wrapper style1 first">
+				<article class="container" id="top">
+
+				<center>
+					<div class="8u 12u(mobile)">
+							<header>
+								<h1> Access denied.</h1>
+							</header>
+							<p>You will have to log in to get access this page.</p>
+						</center>
+					</div>
+				</article>
+			</div>
+
+		
+		<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+			<script>
+				var events = '';
+				var artists = [];
+				var images = [];
+				var socket = io.connect('http://localhost:8888');
+				socket.on('page', function (data) {
+   					socket.emit('page','dashboard.html');
+  				});
+  				socket.on('data', function(data){
+  					//alert(JSON.stringify(data));
+					write(data);
+  				})
+
+  				var nav = `<nav id="nav">
+					<ul class="container">
+						<li><a href="#top">Top</a></li>
+						<li><a href="/dashboard">Refresh list of concerts</a></li>
+						<li><a href="/logout">Log out</a></li>
+					</ul>
+				</nav>`;
+
+  				var begin = `<div class="wrapper style1 first" id="top">
+				<article class="container">
+					<div class="row">
+						<div class="4u 12u(mobile)">
+							<span class="image fit"><img src=`
+
+				var middle= `alt="" /></span>
+						</div>
+						<div class="8u 12u(mobile)">
+							<header>
+								<h1><strong>`;
+
+				var end = `</div></div></article></div>`;	
+				 var fin = `<div class="wrapper style3 first">
+				<article class="container" id="top">
+
+				<center>
+					<div class="8u 12u(mobile)">
+							<header>
+								<h1>List of concerts within 250 miles</h1>
+							</header>
+							<br>
+								<p> Please <strong>scroll down</strong> to see the list</p>
+								<!--<a href="/refresh" class="button big scrolly">Click here to refresh the list</a>-->
+
+						</center>
+					</div>
+				</article>
+			</div>`;
+
+  				function write(data){
+  					data.forEach(function (item, index){
+  						var concert='';
+  						var picture;
+  						item.events.forEach(function (item2, index2){
+  							picture=item2.artistpic;
+  							
+  							datetime = JSON.stringify(item2.date);
+  							var ind = datetime.indexOf("T");
+  							var date = datetime.substring(1,ind);
+  							var time = datetime.substring(ind+1).slice(0,-1);
+  							var venue = JSON.stringify(item2.venue).slice(1,-1);
+  							var ticket = JSON.stringify(item2.ticket_status).slice(1,-1);
+  							var city = JSON.stringify(item2.city).slice(1,-1);
+  							var state = JSON.stringify(item2.state).slice(1,-1);
+  							var country = JSON.stringify(item2.country).slice(1,-1);
+  							var ticket_button = false;
+  							var distance = item2.distance;
+
+  							if(ticket==="unavailable"){
+  								ticket='<b><font color="red">'+ticket+'</font></b>';
+  							}
+  							else{
+  								ticket_button = true;
+  								ticket='<b><font color="blue">'+ticket+'</font></b>';
+  							}
+  							
+  							concert += `<p><br>Venue: `+ venue + '<br>Location: ' + city + ', ' + state + "<br>Country: " + country
+  							+`<br>Date of the Event: ` + date +`<br>Time of the Event: ` + time + `<br>Ticket availability: ` 
+  							+ ticket + '<br>Distance: ' + distance.toFixed(1) + ' km' + '</p>';
+  							
+  							if(ticket_button){
+  								concert+=`<a href=`+ JSON.stringify(item2.ticket) + ` class="button small scrolly">Buy tickets</a>`;
+  							}
+  									
+  						});
+  						var division = nav + begin + JSON.stringify(picture) + middle + JSON.stringify(item._id).slice(1,-1) + `</strong></h1>
+  							</header>` + concert + end;
+
+  						concert = '';
+  						fin += division;
+  					});
+  					document.body.innerHTML = fin;
+  				}
+
+  					    
+
+
+
+			</script>
+
+
+		
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/skel-viewport.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<title>Craving sunlight</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		
+	</head>
+	<body>
+
+<!-- Script to get, display and emit location -->
+			<script src="http://localhost:8888/socket.io/socket.io.js"></script>
+			<script>
+				var socket = io.connect('http://localhost:8888');
+				
+
+				socket.on('page', function (data) {
+					socket.emit('page', 'success.html');
+					getLocation();
+					function getLocation() {
+					    if (navigator.geolocation) {
+					        return navigator.geolocation.getCurrentPosition(setPosition);
+					    } else { 
+					        alert("Geolocation is not supported by this browser");
+					    }
+					}
+					function setPosition(position) {
+						socket.emit('latitude',position.coords.latitude);
+	   					socket.emit('longitude',position.coords.longitude);
+					}
+   				});
+   				
+   				socket.on("redirect_to_dashboard", function(){
+   					window.setTimeout(function(){
+   						window.location.href = "/dashboard";
+    				},3000);
+   				});
+
+   				function redirect(){
+   					var red = `<div class="wrapper style1 first">
+						<article class="container" id="top">
+
+						<center>
+							<div class="8u 12u(mobile)">
+									<header>
+										<h1> Refreshing list of concerts near your location</h1>
+									</header>
+									<br>
+										<p> This will only take a moment</p>
+										<!-- <button onclick="getLocation()">Get location</button> -->
+								</center>
+							</div>
+						</article>
+					</div>`;
+
+					document.body.innerHTML = red;
+
+
+   				}
+
+  				
+			</script>
+
+
+
+
+
+
+		<!-- Home -->
+			<div class="wrapper style1 first">
+				<article class="container" id="top">
+
+				<center>
+					<div class="8u 12u(mobile)">
+							<header>
+								<h1> Succesfully logged in</h1>
+							</header>
+							<br>
+								<p> If prompted, click <strong>Allow</strong> to access your location</p>
+								<!-- <button onclick="getLocation()">Get location</button> -->
+							<footer>
+								<ul id="copyright">
+								<li>&copy; Vivek Kotecha. All rights reserved.</li>
+								</ul>
+							</footer>
+						</center>
+					</div>
+				</article>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/skel-viewport.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+
+	</body>
+</html>
+
